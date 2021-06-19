@@ -1,17 +1,19 @@
-from SettingsManager.exec_cmd import exec_cmd, exec_with_sudo
+from SettingsManager.exec_cmd import exec_cmd, exec_with_sudo, exec_command
 
 
 def get_repolist() -> dict:
     """
     return repo list in dict where key - repo url, value - repo description
     """
-    cmd = exec_cmd(["dnf", "repolist"])[0]
-    repos =  list(filter(lambda s: s, cmd["data"].split('\n')))[1:]  # get output and delete title
+    cmd = str(exec_command(["dnf", "repolist"])[0].decode())
+    repos =  list(filter(lambda s: s, cmd.split('\n')))[1:]  # get output and delete title
     repos = list(map(lambda x: x.split(), repos))
+    
+    enabled = str(exec_command(["dnf", "repolist", "enabled"])[0].decode())
     res = {}
     for s in repos:
         print(s)
-        res[s[0]] = ' '.join(s[1:])
+        res[s[0]] = [' '.join(s[1:]), True if s[0] in enabled else False]
     return res
 
 
