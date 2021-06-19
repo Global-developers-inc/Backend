@@ -1,6 +1,5 @@
-from SettingsManager.exec_cmd import exec_cmd
+from SettingsManager.exec_cmd import exec_cmd, exec_command
 from SettingsManager.utils import get_themes_list
-from subprocess import Popen, PIPE
 
 
 def set_colortheme(theme):
@@ -14,9 +13,8 @@ def set_bg(filename):
 def get_themes():
     # get all themes
     themes = get_themes_list("/usr/share/themes")
-    installed_theme = Popen(
-        ["gsettings", "get", "org.gnome.desktop.interface", "gtk-theme"], 
-        stdout=PIPE, stderr=PIPE, stdin=PIPE
+    installed_theme = exec_command(
+        ["gsettings", "get", "org.gnome.desktop.interface", "gtk-theme"]
     ).communicate()
     if len(installed_theme[1]) > 0:
         return {

@@ -17,5 +17,8 @@ CATEGORYS = {
     "autostart": Settings(
         get_func=lambda x: x,
         post_func=autostart_post_handler,
+    ),
+    "user": Settings(
+        get_func=
     )
 }
