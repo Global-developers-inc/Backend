@@ -2,6 +2,8 @@ import os
 
 
 def read_file(file_name: str):
+    if not os.path.isfile(file_name):
+        return ""
     file_data = ""
     with open(file_name, 'r', encoding="utf-8") as file:
         file_data = file.read().splitlines()
