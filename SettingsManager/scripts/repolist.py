@@ -38,8 +38,20 @@ def enable_repo(repo_id: str) -> list:
         ["dnf", "config-manager", "--set-disabled", repo_id])
 
 
+def add_repo_with_SSL(repo_url: str, ssl_location: str):
+    name = repo_url.replace('https://', "")
+    return exec_with_sudo(
+        [
+            "echo", f"\"[{name}]\nbaseurl={repo_url}\nproxy_sslcacert={ssl_location}\nenabled=1\nname=User repo with SSL\"", "" ">", 
+            f"/etc/yum.repos.d/{name}.repo"
+        ]
+    )
+
+
 def change_repolist(data):
-    if data["action"] == "add":
+    if data["action"] == "add_ssl":
+        return add_repo_with_SSL(data["url"], data["ssl"])
+    elif data["action"] == "add":
         return add_repo(data["url"])
     elif data["action"] == "enable":
         return enable_repo(data["id"])
