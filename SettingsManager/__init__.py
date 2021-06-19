@@ -19,6 +19,11 @@ CATEGORYS = {
         post_func=autostart_post_handler,
     ),
     "user": Settings(
-        get_func=
+        get_func=user_get,
+        post_func=user_post_handler,
+    ), 
+    "domain": Settings(
+        get_func=domain_get, 
+        post_func=join_to_domain,
     )
 }
