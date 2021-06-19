@@ -6,7 +6,7 @@ def get_repolist() -> dict:
     """
     return repo list in dict where key - repo url, value - repo description
     """
-    cmd = exec_cmd(["dnf repolist"])
+    cmd = exec_cmd(["dnf", "repolist"])
     if cmd["terminated"]:
         return cmd
     repos =  list(filter(lambda s: s, cmd["data"]))[1:]  # get output and delete title
@@ -23,14 +23,14 @@ def in_repolist(repo_id: str) -> bool:
     
 
 def add_repo(repo_url: str) -> list:
-    return exec_with_sudo([f"dnf config-manager --add-repo {repo_url}"]), 201
+    return exec_with_sudo([f"dnf", "config-manager", "--add-repo", repo_url]), 201
 
 
 def disable_repo(repo_id: str) -> list:
     if not in_repolist(repo_id):
         return {}, 404
     res = exec_with_sudo(
-        [f"dnf config-manager --set-disabled {repo_id}"])
+        ["dnf", "config-manager", "--set-disabled", repo_id])
     return res, 201
 
 
@@ -38,7 +38,7 @@ def enable_repo(repo_id: str) -> list:
     if not in_repolist(repo_id):
         return {}, 404
     return exec_with_sudo(
-        [f"dnf config-manager --set-disabled {repo_id}"])
+        [f"dnf", "config-manager", "--set-disabled", repo_id])
 
 
 def show_repolist() -> list:
