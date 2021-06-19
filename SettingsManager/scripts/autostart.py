@@ -1,14 +1,12 @@
 from SettingsManager.exec_cmd import exec_with_sudo
-from SettingsManager.sudo import get_sudo_password
 
 
-def disable_demon(demon_name: str):
-    return exec_with_sudo(['systemctl', "disable", demon_name])
+def change_state_of_damon(cmd: str, demon_name: str):
+    return exec_with_sudo(['systemctl', cmd, demon_name])
 
 
-def enable_demon(demon_name: str):
-    return exec_with_sudo(['systemctl', "enable", demon_name])
-
-
-def disable_gdm(data):
-    return disable_demon("gdm")
+def autostart_post_handler(data):
+    # TODO
+    if data["sub"] == "error_report":
+        pass
+    return change_state_of_damon(data["cmd"], "")

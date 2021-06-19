@@ -14,7 +14,6 @@ def get_repolist() -> dict:
     res = {}
     for s in repos:
         res[s[0]] = ' '.join(s[1:])
-    print(repos)
     return res
 
 
@@ -38,7 +37,7 @@ def enable_repo(repo_id: str) -> list:
     if not in_repolist(repo_id):
         return {}, 404
     return exec_with_sudo(
-        [f"dnf", "config-manager", "--set-disabled", repo_id])
+        ["dnf", "config-manager", "--set-disabled", repo_id])
 
 
 def show_repolist() -> list:
@@ -46,7 +45,6 @@ def show_repolist() -> list:
 
 
 def change_repolist(data):
-    print(data)
     if data["action"] == "add":
         return add_repo(data["url"])
     elif data["action"] == "enable":

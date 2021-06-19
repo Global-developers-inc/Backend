@@ -10,5 +10,4 @@ CATEGORYS = {
         get_func=show_repolist,
         post_func=change_repolist,
     ),
-    "gdm": Settings(get_func=lambda x: x, post_func=disable_gdm)
 }
