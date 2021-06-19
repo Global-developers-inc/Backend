@@ -15,7 +15,7 @@ def get_themes():
     themes = get_themes_list("/usr/share/themes")
     installed_theme = exec_command(
         ["gsettings", "get", "org.gnome.desktop.interface", "gtk-theme"]
-    ).communicate()
+    )
     if len(installed_theme[1]) > 0:
         return {
             "data": "error",
