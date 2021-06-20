@@ -4,6 +4,7 @@ from subprocess import PIPE, Popen
 
 
 def exec_with_sudo(args: list) -> dict:
+    print(" ".join(args))
     args.insert(0, "sudo")
     args.insert(1, "-S")
     password = get_sudo_password()
@@ -13,6 +14,7 @@ def exec_with_sudo(args: list) -> dict:
             "error_text": "Incorrect sudo password",
         }
     proc = exec_command(args)
+    print(proc[0].decode(), proc[1].decode())
     created = 201 if len(proc[1]) == 0 else 400
     return {
         "data": proc[0].decode(), 

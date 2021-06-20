@@ -8,7 +8,7 @@ def change_avatar(filename):
 
 
 def user_post_handler(data):
-    if data["actions"] == "avatar":
+    if data["action"] == "avatar":
         return change_avatar(data["filename"])
     return toggle_autologin()
 
@@ -29,19 +29,22 @@ def check_autologin():
 def toggle_autologin():
     username = exec_command(["whoami"])[0].decode().strip()
     autologin, enabled, content = check_autologin()
-    indx = 0
+    indx = content.index("[daemon]")
     if enabled:
         for index, line in enumerate(content):
             if line == f"AutomaticLogin={username}":
-                indx = index
                 content[index] = "#" + line            
             elif line == f"#AutomaticLogin={username}":
-                indx = index
                 content[index] = line.replace("#", "")
-    if not autologin:
-        content.insert(indx, "AutomaticLoginEnabled=True")
-    text = "\n".join(content)
-    return exec_with_sudo(["echo", f'\"{text}\"', ">", "/etc/gdm/custom.conf"])
+    else:
+        content.insert(indx + 1, "AutomaticLoginEnabled=True")
+    if not autologin:  # enable autologin
+        indx = content.index("[daemon]")
+        content.insert(indx + 1, f"AutomaticLogin={username}")
+    # Костыль.
+    with open("tmp_gdm_config", "w+", encoding='utf-8') as f:
+        f.write("\n".join(content))
+    return exec_with_sudo(["mv",  "tmp_gdm_config", "/etc/gdm/custom.conf"])
 
 
 def user_get():
