@@ -1,0 +1,8 @@
+[Unit]
+Description=Greating application for RED OS
+
+[Service]
+ExecStart=/bin/bash /opt/RedGreating/run.sh
+
+[Install]
+WantedBy=multi-user.target

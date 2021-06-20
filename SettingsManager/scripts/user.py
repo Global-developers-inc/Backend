@@ -41,7 +41,6 @@ def toggle_autologin():
     if not autologin:  # enable autologin
         indx = content.index("[daemon]")
         content.insert(indx + 1, f"AutomaticLogin={username}")
-    # Костыль.
     with open("tmp_gdm_config", "w+", encoding='utf-8') as f:
         f.write("\n".join(content))
     return exec_with_sudo(["mv",  "tmp_gdm_config", "/etc/gdm/custom.conf"])
