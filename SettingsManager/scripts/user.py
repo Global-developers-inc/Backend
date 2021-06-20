@@ -11,7 +11,23 @@ def user_post_handler(data):
         return change_avatar(data["filename"])
 
 
+def check_autologin():
+    username = exec_command(["whoami"])[0].decode().strip()
+    print(username)
+    enabled = False
+    autologin = False
+    with open("/etc/gdm/custom.conf", "r", encoding='utf-8') as f:
+        data = f.read().splitlines()
+    for line in data:
+        if line == "AutomaticLoginEnable=True":
+            enabled = True
+        if line == f"AutomaticLogin={username}":
+            autologin = True
+    return autologin and enabled
+
+
 def user_get():
-    # TODO is autostart?
-    return {}, 200
+    return {
+        "autologin": check_autologin(),
+    }, 200
     pass

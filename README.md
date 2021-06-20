@@ -22,7 +22,11 @@ keys - repo id, values - [repo discription, is enabled].
 ### autostart
 in process
 ### user
-in process
+```
+{
+     "autologin": false
+}
+```
 ### domain
 Ничего не возращает
 ## POST
