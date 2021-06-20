@@ -1,3 +1,1 @@
-python main.py
-cd Frontend/client
-npm start
+python main.py & cd Frontend/client && npm start
