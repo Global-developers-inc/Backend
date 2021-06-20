@@ -15,7 +15,7 @@ CATEGORYS = {
         post_func=decoration_post,
     ), 
     "autostart": Settings(
-        get_func=lambda x: x,
+        get_func=autostart_get_handler,
         post_func=autostart_post_handler,
     ),
     "user": Settings(
